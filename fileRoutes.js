@@ -16,6 +16,7 @@ router.route('/create-file')
                    fs.mkdir(folderPath,(err)=>{
                        if(err){
                         response.status(404).send({msg:err});
+                        return;
                        }
                        else{
                            console.log("Folder created");
@@ -27,6 +28,7 @@ router.route('/create-file')
            fs.appendFile(`${folderPath}/${fileName}`,timestamp.toString(),function(err) {
             if(err) {
                 response.status(404).send({msg:err});
+                return
             }
             else{
             response.send({msg:'File saved successfully'});
@@ -41,6 +43,7 @@ router.route('/retrieve-files')
         fs.readdir(folderPath,(err,files)=>{
             if(err){
                 response.status(404).send({msg:err});
+                return;
             }
             else{
                 response.send(files.toString());
