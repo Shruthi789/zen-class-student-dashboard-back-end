@@ -1,34 +1,32 @@
 import express from "express";
 import fs from 'fs';
+import path from 'path';
 
 const router= express.Router();
 
 /*Creating a file in a particular folder by providing the full folder path */
 router.route('/create-file')
        .post((request,response)=>{
-           const {folderPath}=request.body;
+           const {folderName}=request.body;
            const currentDateandTime=new Date();
            const timestamp=currentDateandTime.getTime();
            const fileName=`${currentDateandTime.getDate()}.${currentDateandTime.getMonth()+1}.${currentDateandTime.getFullYear()}-${currentDateandTime.getHours()}.${currentDateandTime.getMinutes()}.txt`;
-           //Checking if the Folder exists
+           const folderPath=path.resolve(`${folderName}`);
+           const filePath=path.join(`${folderPath}`,`${fileName}`);
+           //Checking if the Folder exists and creating one if it does not exist
            fs.access(folderPath,(err)=>{
                if(err){
                    fs.mkdir(folderPath,(err)=>{
                        if(err){
                         response.status(404).send({msg:err});
-                        return;
-                       }
-                       else{
-                           console.log("Folder created");
                        }
                    })
                }
            });
            //Creating a file if the folder exists
-           fs.appendFile(`${folderPath}/${fileName}`,timestamp.toString(),function(err) {
+           fs.appendFile(`${filePath}`,timestamp.toString(),function(err) {
             if(err) {
                 response.status(404).send({msg:err});
-                return
             }
             else{
             response.send({msg:'File saved successfully'});
@@ -39,11 +37,11 @@ router.route('/create-file')
 /*Retrieving files from a particular folder by providing the full folder path */
 router.route('/retrieve-files')
       .get((request,response)=>{
-        const {folderPath}=request.body;
+        const {folderName}=request.body;
+        const folderPath=path.resolve(`${folderName}`);
         fs.readdir(folderPath,(err,files)=>{
             if(err){
                 response.status(404).send({msg:err});
-                return;
             }
             else{
                 response.send(files.toString());
