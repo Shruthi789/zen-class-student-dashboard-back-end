@@ -12,5 +12,6 @@ const PORT=process.env.PORT;
 app.get('/',(request,response)=>{
     response.send('Welcome to Node JS Filesystem!!');
 })
+/*Route to the file system APIs */
 app.use('/filesystem',fileRouter);
 app.listen(PORT,()=>{console.log("Server Connected")});

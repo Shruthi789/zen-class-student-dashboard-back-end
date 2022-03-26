@@ -23,7 +23,7 @@ router.route('/create-file')
                    })
                }
            });
-           //Creating a file if exists
+           //Creating a file if the folder exists
            fs.appendFile(`${folderPath}/${fileName}`,timestamp.toString(),function(err) {
             if(err) {
                 response.status(404).send({msg:err});
