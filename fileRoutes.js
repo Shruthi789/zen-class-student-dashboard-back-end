@@ -4,7 +4,7 @@ import path from 'path';
 
 const router= express.Router();
 
-/*Creating a file in a particular folder by providing the full folder path */
+/*Creating a file in a particular folder by providing the folder name */
 router.route('/create-file')
        .post((request,response)=>{
            const {folderName}=request.body;
@@ -34,7 +34,7 @@ router.route('/create-file')
         })
        });
 
-/*Retrieving files from a particular folder by providing the full folder path */
+/*Retrieving files from a particular folder by providing the folder name */
 router.route('/retrieve-files')
       .get((request,response)=>{
         const {folderName}=request.body;
