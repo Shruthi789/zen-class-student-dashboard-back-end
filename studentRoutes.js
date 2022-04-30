@@ -1,10 +1,11 @@
 import express from "express";
 import {detailsFind} from "./actions/dashboardActions";
+import { adminAuth } from "./middleware/auth";
 
 const router=express.Router();
 
 router.route('/getstudentInfo')
-      .get(async(req,res)=>{
+      .get(adminAuth,async(req,res)=>{
           const data=req.body;
           try{
               const info=await detailsFind(data);
