@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import {genPassword,addUser,passwordStrength,getUser,comparePassword,emailValidation, updateUsers} from '../actions/userActions.js';
-import { otpAdd,mailSend,otpFind,otpDelete} from "../actions/otpActions.js";
+import {genPassword,addUser,passwordStrength,getUser,comparePassword,emailValidation, updateUsers} from './actions/userActions.js';
+import { otpAdd,mailSend,otpFind,otpDelete} from "./actions/otpActions.js";
 
 const router=express.Router();
 
