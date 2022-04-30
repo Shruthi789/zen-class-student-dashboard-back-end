@@ -2,12 +2,13 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import {genPassword,addUser,passwordStrength,getUser,comparePassword,emailValidation, updateUsers} from './actions/userActions.js';
 import { otpAdd,mailSend,otpFind,otpDelete} from "./actions/otpActions.js";
+import { detailsInsert } from "./actions/dashboardActions.js";
 
 const router=express.Router();
 
 router.route('/signup')
     .post(async (request,response)=>{
-      const {username,password,email,usertype}=request.body;
+      const {username,password,email}=request.body;
       const user=await getUser({username});
       const passStrength=passwordStrength(password);
       const emailValid=emailValidation(email);
@@ -22,7 +23,19 @@ router.route('/signup')
     }
     else{
       const hashedPassword=await genPassword(password);
-      const result=await addUser({username,password:hashedPassword,usertype,email});
+      const result=await addUser({username,password:hashedPassword,email});
+      const studentInfo={
+        name:username,
+        completion:0,
+        attendance:0,
+        codekata:0,
+        webkata:0,
+        tasks:{
+          submittedTasks:0,
+          pendingTasks:0
+        }
+      };
+      await detailsInsert(studentInfo);
       response.send({msg:"Success!!",result});
     }
   });
@@ -42,7 +55,7 @@ router.route('/signup')
       return;
     }
       token=jwt.sign({id:user._id},process.env.ADMIN_SECRET_KEY);
-      response.send({msg:'Sign in successful',type:user.usertype,username,token});
+      response.send({msg:'Sign in successful',username,token});
     });
   
   router.route('/send-email')

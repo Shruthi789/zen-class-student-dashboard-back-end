@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { usersRouter } from "./userRoutes.js";
+import { studentRouter } from "./studentRoutes.js";
 
 dotenv.config();
 const app=express();
@@ -22,6 +23,7 @@ app.get('/',(request,response)=>{
     response.send('Welcome to the Student Dashboard')
 })
 app.use('/users',usersRouter);
+app.use('/dashboard',studentRouter);
 
 app.listen(PORT,()=>{console.log("Server Connected")});
 
