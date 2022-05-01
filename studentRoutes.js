@@ -22,8 +22,12 @@ router.route('/editStudentInfo/:id')
     const {id}=request.params;
     let data=request.body;
     for(let key in data){
-        if(key!=='name'){
+        if(key!=='name' && key!='tasks'){
             data[key]=(+data[key]);
+        }
+        else if(key==='tasks'){
+            data[key].pendingTasks=(+data[key].pendingTasks);
+            data[key].submittedTasks=(+data[key].submittedTasks);
         }
     }
     const result=await detailsUpdate({_id:ObjectId(id)}, data);
