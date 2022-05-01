@@ -1,6 +1,6 @@
 import express from "express";
-import {detailsFind,detailsUpdate} from "./actions/dashboardActions";
-import { adminAuth } from "./middleware/auth";
+import {detailsFind,detailsUpdate} from "./actions/dashboardActions.js";
+import { adminAuth } from "./middleware/auth.js";
 
 const router=express.Router();
 
