@@ -21,7 +21,7 @@ router.route('/editStudentInfo/:id')
 .put(adminAuth,async (request,response)=>{
     const {id}=request.params;
     let data=request.body;
-    for(let key of data){
+    for(let key in data){
         if(key!=='name'){
             data[key]=(+data[key]);
         }
