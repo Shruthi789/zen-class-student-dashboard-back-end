@@ -1,14 +1,14 @@
 import express from "express";
-import {detailsFind} from "./actions/dashboardActions";
+import {detailsFind,detailsUpdate} from "./actions/dashboardActions";
 import { adminAuth } from "./middleware/auth";
 
 const router=express.Router();
 
-router.route('/getstudentInfo')
+router.route('/getstudentInfo/:name')
       .get(adminAuth,async(req,res)=>{
-          const data=req.body;
+          const {name}=req.params;
           try{
-              const info=await detailsFind(data);
+              const info=await detailsFind(name);
               res.send(info);
           }
           catch(err){
@@ -16,5 +16,11 @@ router.route('/getstudentInfo')
 
           }
       });
-
+router.route('/editStudentInfo/:id')
+.put(adminAuth,async (request,response)=>{
+    const {id}=request.params;
+    let data=request.body;
+    const result=await detailsUpdate({_id:ObjectID(id)}, data);
+    response.send(result);
+  })
 export const studentRouter=router;
