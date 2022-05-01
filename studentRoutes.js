@@ -1,6 +1,7 @@
 import express from "express";
 import {detailsFind,detailsUpdate} from "./actions/dashboardActions.js";
 import { adminAuth } from "./middleware/auth.js";
+import { ObjectId } from 'mongodb';
 
 const router=express.Router();
 
@@ -20,7 +21,7 @@ router.route('/editStudentInfo/:id')
 .put(adminAuth,async (request,response)=>{
     const {id}=request.params;
     let data=request.body;
-    const result=await detailsUpdate({_id:ObjectID(id)}, data);
+    const result=await detailsUpdate({_id:ObjectId(id)}, data);
     response.send(result);
   })
 export const studentRouter=router;
