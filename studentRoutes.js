@@ -21,6 +21,11 @@ router.route('/editStudentInfo/:id')
 .put(adminAuth,async (request,response)=>{
     const {id}=request.params;
     let data=request.body;
+    for(let key of data){
+        if(key!=='name'){
+            data[key]=(+data[key]);
+        }
+    }
     const result=await detailsUpdate({_id:ObjectId(id)}, data);
     response.send(result);
   })
